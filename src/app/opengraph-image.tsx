@@ -4,10 +4,6 @@ export const alt = "URL Shortener";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/**
- * Open Graph thumbnail shown in link previews
- * (the default font has no Korean glyphs, so keep text in English)
- */
 export default function OpengraphImage() {
     return new ImageResponse(
         (
