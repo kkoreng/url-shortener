@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
+import LinkIcon from "@/components/LinkIcon";
 
 export const alt = "URL Shortener";
 export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
 
 export default function OpengraphImage() {
     return new ImageResponse(
@@ -30,10 +30,7 @@ export default function OpengraphImage() {
                         marginBottom: 48,
                     }}
                 >
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                    </svg>
+                    <LinkIcon size={64} color="#fff" />
                 </div>
                 <div style={{ fontSize: 96, fontWeight: 700, color: "#18181b", letterSpacing: -3 }}>
                     URL Shortener

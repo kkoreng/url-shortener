@@ -1,7 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Button from "@/components/Buttons";
+import Button from "@/components/Button";
+import LinkIcon from "@/components/LinkIcon";
 
 export default function Home() {
     const [originalUrl, setOriginalUrl] = useState("");
@@ -34,7 +35,8 @@ export default function Home() {
                 })
             });
 
-            const data = await response.json();
+            // Error responses may not be JSON (e.g. platform error pages)
+            const data = await response.json().catch(() => ({}));
 
             if (!response.ok) {
                 setError(data.error === "Invalid URL"
@@ -52,23 +54,24 @@ export default function Home() {
     }
 
     async function copyShortUrl() {
-        await navigator.clipboard.writeText(shortUrl);
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
+        try {
+            await navigator.clipboard.writeText(shortUrl);
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
+        } catch {
+            setError("Couldn't copy. Please copy the link manually.");
+        }
     }
 
     return (
         <main className="relative flex flex-1 items-center justify-center overflow-hidden bg-zinc-50 px-4 py-16 dark:bg-zinc-950">
             {/* Background gradient */}
-            <div className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-300 via-sky-200 to-fuchsia-200 opacity-50 blur-3xl dark:from-indigo-900 dark:via-sky-950 dark:to-fuchsia-950" />
+            <div className="pointer-events-none absolute -top-40 left-1/2 h-120 w-180 -translate-x-1/2 rounded-full bg-linear-to-tr from-indigo-300 via-sky-200 to-fuchsia-200 opacity-50 blur-3xl dark:from-indigo-900 dark:via-sky-950 dark:to-fuchsia-950" />
 
             <div className="relative w-full max-w-xl">
                 <header className="mb-8 text-center">
-                    <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white shadow-lg dark:bg-white dark:text-black">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                        </svg>
+                    <span className="mb-4 inline-flex size-12 items-center justify-center rounded-2xl bg-black text-white shadow-lg dark:bg-white dark:text-black">
+                        <LinkIcon size={22} />
                     </span>
                     <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
                         URL Shortener
